@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "declaration": true, // 生成类型声明文件
+    "outDir": "./dist", // 编译输出目录
+    "rootDir": "./src", // 源代码根目录
+    "strict": true, // 启用严格类型检查
+    "forceConsistentCasingInFileNames": true, // 确保文件名大小写一致（跨平台兼容性）
+    "esModuleInterop": true, // 兼容 CommonJS 和 ES Module
+    "skipLibCheck": true, // 忽略库类型声明检查
+    "moduleResolution": "node", // 使用 Node.js 的模块解析策略
+    "sourceMap": true // 用于调试时映射错误到源码
+  },
+  "include": ["src/**/*.ts", "test/**/*"], // 指定编译文件范围
+  "exclude": ["node_modules"]
+}

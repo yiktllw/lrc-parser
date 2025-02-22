@@ -1,0 +1,47 @@
+{
+  "name": "@yiktllw/lrc-parser",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yiktllw/lrc-parser.git"
+  },
+  "author": "yiktllw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yiktllw/lrc-parser/issues"
+  },
+  "homepage": "https://github.com/yiktllw/lrc-parser#readme",
+  "devDependencies": {
+    "@types/chai": "^5.0.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.13.5",
+    "chai": "^5.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "mocha": "^11.1.0",
+    "prettier": "^3.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}
