@@ -20,7 +20,12 @@ export function parseLrc(str: string): Array<ILrcItem> {
       const match = /\[(\d+):(\d+)\.(\d+)\](.+)/.exec(line);
       return match
         ? {
-            startTime: new TimeSpan(0, +match[1], +match[2], +match[3] * 10),
+            startTime: new TimeSpan(
+              0,
+              +match[1],
+              +match[2],
+              +`0.${match[3]}` * 1000,
+            ),
             text: match[4],
           }
         : null;
