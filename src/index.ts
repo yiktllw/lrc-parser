@@ -110,8 +110,8 @@ export class TimeSpan {
   }
   get mmss() {
     const minutes = Math.floor(this.minutes);
-    const seconds = +this.seconds.toFixed(2);
-    return `${minutes >= 10 ? minutes : `0${minutes}`}:${seconds >= 10 ? seconds : `0${seconds}`}`;
+    const seconds = (this.seconds % 60).toFixed(3);
+    return `${minutes >= 10 ? minutes : `0${minutes}`}:${+seconds >= 10 ? seconds : `0${seconds}`}`;
   }
 }
 
