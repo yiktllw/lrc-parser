@@ -17,7 +17,7 @@ export function parseLrc(str: string): Array<ILrcItem> {
   return str
     .split("\n")
     .map((line) => {
-      const match = /\[(\d{2}):(\d{2})\.(\d{2})\](.+)/.exec(line);
+      const match = /\[(\d+):(\d+)\.(\d+)\](.+)/.exec(line);
       return match
         ? {
             startTime: new TimeSpan(0, +match[1], +match[2], +match[3] * 10),
@@ -43,23 +43,22 @@ export function parseNcmYrc(str: string): Array<IYrcItem> {
       }
     })
     .map((line) => {
-      const match = /\[(\d+),(\d+)\](.+)/.exec(line);
-      if (!match) return null;
-      let result: IYrcItem = {
-        startTime: new TimeSpan(+match[1], "ms"),
-        duration: new TimeSpan(+match[2], "ms"),
-        words: [],
+      const linematch = /\[(\d+),(\d+)\](.+)/.exec(line);
+      if (!linematch) return null;
+      return {
+        startTime: new TimeSpan(+linematch[1], "ms"),
+        duration: new TimeSpan(+linematch[2], "ms"),
+        words: Array.from(
+          linematch[3].matchAll(/\((\d+),(\d+),(\d+)\)([^\(\)]+)/g),
+          (element) => {
+            return {
+              startTime: new TimeSpan(+element[1], "ms"),
+              duration: new TimeSpan(+element[2], "ms"),
+              text: element[4],
+            };
+          },
+        ),
       };
-      Array.from(match[3].matchAll(/\((\d+),(\d+),(\d+)\)([^\(\)]+)/g)).forEach(
-        (element) => {
-          result.words.push({
-            startTime: new TimeSpan(+element[1], "ms"),
-            duration: new TimeSpan(+element[2], "ms"),
-            text: element[4],
-          });
-        },
-      );
-      return result;
     })
     .filter(Boolean) as IYrcItem[];
 }
@@ -112,6 +111,7 @@ export class TimeSpan {
 }
 
 function msToLrcTime(t: number): string {
+  if (t < 0) t = 0;
   const _seconds = Math.floor(t / 1000);
   const _10_ms = Math.round((t - _seconds * 1000) / 10);
   const minutes = Math.floor(_seconds / 60);

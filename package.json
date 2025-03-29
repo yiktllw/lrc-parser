@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "mocha",
+    "test": "npm run build && mocha",
     "prepare": "husky"
   },
   "repository": {
