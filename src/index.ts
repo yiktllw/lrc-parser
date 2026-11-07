@@ -36,7 +36,18 @@ export function parseLrc(str: string): Array<ILrcItem> {
 export const parseNcmLrc = (str: string): Array<ILrcItem> =>
   parseLrc(standardizeNcmLrc(str));
 
+/** 逐字歌词的行标记：`[起始毫秒,时长毫秒](词起始,词时长,0)词` */
+const YRC_LINE = /\[\d+,\d+\]/;
+
+/**
+ * 把网易云音乐的 YRC 歌词解析成逐字歌词
+ *
+ * 整段里没有任何真正的逐字行时返回空数组：整行歌词（LRC）正文前面也会带
+ * 一行纯 JSON 的作词/作曲信息，那行能被当成本条逐字歌词，从而让调用方
+ * 误以为这是 YRC，永远走不到整行歌词的解析分支。
+ */
 export function parseNcmYrc(str: string): Array<IYrcItem> {
+  if (!YRC_LINE.test(str)) return [];
   return str
     .split("\n")
     .map((line) => {
